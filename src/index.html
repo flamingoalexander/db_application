@@ -77,6 +77,15 @@
 <div id="table-data"></div>
 
 <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Проверяем наличие токена в localStorage
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+            // Если токена нет, перенаправляем на страницу авторизации
+            window.location.href = './auth.html';
+        }
+    });
     let currentTable = '';
     let tableData = [];
 
