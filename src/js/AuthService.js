@@ -20,7 +20,7 @@ export default class AuthService {
     }
 
     static async logout() {
-        fetch('http://195.133.18.211:3000/logout', {
+        await fetch('http://195.133.18.211:3000/logout', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -38,7 +38,7 @@ export default class AuthService {
     }
 
     static getCurrentUser() {
-        // Реализация получения текущего пользователя, если требуется
+
     }
 }
 
