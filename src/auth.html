@@ -19,6 +19,9 @@
 <div>
   <button id="logout">LOGOUT</button>
 </div>
+<div>
+  <button id="redirect">LOGOUT</button>
+</div>
 <script>
   document.getElementById('loginForm').addEventListener('submit', async (event) => {
     event.preventDefault(); // Предотвращаем стандартную отправку формы
@@ -47,6 +50,9 @@
             });
   });
 
+  document.getElementById('redirect').addEventListener('click', function(event) {
+    window.location.href = "./index.html";
+  });
   document.getElementById('logout').addEventListener('click', function(event) {
     fetch('http://195.133.18.211:3000/logout', {
       method: 'POST',
