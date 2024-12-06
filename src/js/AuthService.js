@@ -7,16 +7,21 @@ export default class AuthService {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(loginData), // Преобразуем объект в JSON
+            body: JSON.stringify(loginData),
         })
             .then(response => response.json())
             .then(data => {
+                if (data.message === 'Invalid credentials') {
+                    throw new Error(data.message);
+                }
                 console.log('Success:', data);
                 localStorage.setItem('token', data.token);
             })
             .catch(error => {
                 console.error('Error:', error);
+                throw new Error(error);
             });
+
     }
 
     static async logout() {

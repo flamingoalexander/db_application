@@ -7,6 +7,7 @@
 </head>
 <body>
 <h2>Login</h2>
+<h2 id="message"></h2>
 <form id="loginForm">
   <label for="username">Username:</label>
   <input type="text" id="username" name="username" required>
@@ -19,20 +20,21 @@
 <div>
   <button id="logout">LOGOUT</button>
 </div>
-<script>
-  import AuthService from "./js/AuthService";
+<script type="module">
+  import AuthService from "./js/AuthService.js";
   document.getElementById('loginForm').addEventListener('submit', async (event) => {
-    event.preventDefault(); // Предотвращаем стандартную отправку формы
+    event.preventDefault();
 
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
-
-    await AuthService.login(username, password);
-    window.location.href = "./index.html";
-  });
-
-  document.getElementById('redirect').addEventListener('click', function(event) {
-
+    const message = document.getElementById('message');
+    try{
+      await AuthService.login(username, password);
+      window.location.href = "./index.html";
+    } catch(error){
+      console.error(error);
+      message.textContent = 'ЧТО ТО ПОШЛО НЕ ТАК';
+    }
   });
   document.getElementById('logout').addEventListener('click', async (event) => {
     await AuthService.logout;
