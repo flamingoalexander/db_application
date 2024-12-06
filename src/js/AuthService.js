@@ -1,8 +1,7 @@
 export default class AuthService {
     static async login(username, password) {
         const loginData = { username, password };
-
-        const response = await fetch('http://195.133.18.211:3000/login', {
+        const response = await fetch('http://195.133.18.211:3000/api/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -21,11 +20,10 @@ export default class AuthService {
                 console.error('Error:', error);
                 throw new Error(error);
             });
-
     }
 
     static async logout() {
-        await fetch('http://195.133.18.211:3000/logout', {
+        await fetch('http://195.133.18.211:3000/api/logout', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

@@ -1,23 +1,29 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
 module.exports = {
-    entry: './src/auth.js',
+    entry: {
+        main: './src/index.js', // Главная точка входа
+        auth: './src/auth.js', // Точка входа для авторизации
+    },
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'bundle.js',
+        filename: '[name].bundle.js', // Имя файла соответствует имени точки входа
         clean: true,
     },
     mode: 'development',
     plugins: [
         new HtmlWebpackPlugin({
-            template: './src/index.html', // Шаблон HTML
-            filename: 'index.html', // Имя выходного файла
-            inject: 'body', // Скрипты добавляются перед закрывающим </body>
+            template: './src/index.html', // Шаблон для главной страницы
+            filename: 'index.html', // Имя выходного HTML файла
+            chunks: ['main'], // Указывает, какие сборки подключать
+            inject: 'body',
         }),
         new HtmlWebpackPlugin({
-            template: './src/auth.html', // Шаблон HTML
-            filename: 'auth.html', // Имя выходного файла
-            inject: 'body', // Скрипты добавляются перед закрывающим </body>
+            template: './src/auth.html', // Шаблон для страницы авторизации
+            filename: 'auth.html', // Имя выходного HTML файла
+            chunks: ['auth'], // Указывает, какие сборки подключать
+            inject: 'body',
         }),
     ],
 };

@@ -10,13 +10,14 @@ document.addEventListener('DOMContentLoaded', () => {
 let currentTable = '';
 let tableData = [];
 
-async function loadTable() {
+document.getElementById('loadTableBtn').addEventListener('click', async function loadTable() {
     currentTable = document.getElementById('table-select').value;
-    const response = await fetch('http://195.133.18.211:3000/query', {
+    const response = await fetch('http://195.133.18.211:3000/api/query', {
         method: 'POST',
         mode: 'cors',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            authorization: 'Bearer ' + localStorage.getItem('token')
         },
         body: JSON.stringify({
             query: `SELECT * FROM employees`,
@@ -24,7 +25,7 @@ async function loadTable() {
     })
     tableData = await response.json();
     renderTable();
-}
+})
 
 function renderTable() {
     const tableDiv = document.getElementById('table-data');
