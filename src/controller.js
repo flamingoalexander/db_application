@@ -13,16 +13,14 @@ export default class Controller {
         })
         return await response.json()
     }
-    static async updateRow(row) {
-        const response = await fetch(`http://195.133.18.211:3000/api/table/employees`, {
+    static async updateRow(row, tableName) {
+        const response = await fetch(`http://195.133.18.211:3000/api/table/${tableName}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
                 authorization: 'Bearer ' + localStorage.getItem('token')
             },
-            body: JSON.stringify({
-                employee: row
-            })
+            body: JSON.stringify(row)
         });
         const result = await response.json();
         if (response.ok) {
@@ -31,16 +29,14 @@ export default class Controller {
             alert('Ошибка при сохранении данных: ' + result.error);
         }
     }
-    static async addRow(row) {
-        const response = await fetch(`http://195.133.18.211:3000/api/table/employees`, {
+    static async addRow(row, tableName) {
+        const response = await fetch(`http://195.133.18.211:3000/api/table/${tableName}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
                 authorization: 'Bearer ' + localStorage.getItem('token')
             },
-            body: JSON.stringify({
-                employee: row
-            })
+            body: JSON.stringify(row)
         });
         const result = await response.json();
         if (response.ok) {

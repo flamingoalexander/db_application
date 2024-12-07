@@ -14,13 +14,16 @@ document.addEventListener('DOMContentLoaded', () => {
 let currentTable = '';
 let tableData = [];
 
-document.getElementById('loadTableBtn').addEventListener('click', async function loadTable() {
+document.getElementById('loadTableBtn').addEventListener('click', async () => {
+    await loadTable();
+    renderTable(currentTable);
+
+});
+
+async function loadTable() {
     currentTable = document.getElementById('table-select').value;
     tableData = await Controller.loadTable(currentTable);
-    renderTable();
-})
-
-
+}
 
 function renderTable() {
     const addRecordForm = document.querySelector('.addRecordForm').style.display = 'none';
@@ -102,7 +105,7 @@ document.querySelector('#submit').addEventListener('click', async (event) => {
     tableFields.forEach(field => {
         row[field] = document.getElementById(field).value;
     });
-    await Controller.addRow(row);
+    await Controller.addRow(row, currentTable);
     renderTable();
 });
 document.getElementById('cancel').addEventListener('click', async (event) => {
@@ -111,6 +114,6 @@ document.getElementById('cancel').addEventListener('click', async (event) => {
 });
 
 async function save(index) {
-    await Controller.updateRow(tableData[index]);
+    await Controller.updateRow(tableData[index], currentTable);
     renderTable();
 }
