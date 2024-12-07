@@ -31,6 +31,10 @@ export default class Controller {
             if (response.ok) {
                 alert('Данные успешно сохранены.');
             }
+            else {
+                const body = await response.json()
+                alert('Ошибка при сохранении данных: ' + body.message);
+            }
         } catch (err) {
             alert('Ошибка при сохранении данных: ' + err.message);
             console.error(err);
@@ -48,6 +52,10 @@ export default class Controller {
             });
             if (response.ok) {
                 alert('Данные успешно сохранены.');
+            }
+            else {
+                const body = await response.json()
+                alert('Ошибка при добавлении данных: ' + body.message);
             }
         } catch(err) {
             alert('Ошибка при добавлении данных: ' + err.error);
