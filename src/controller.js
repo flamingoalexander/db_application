@@ -13,7 +13,7 @@ export default class Controller {
         })
         return await response.json()
     }
-    static async saveRow(row) {
+    static async updateRow(row) {
         const response = await fetch(`http://195.133.18.211:3000/api/table/employees`, {
             method: 'PATCH',
             headers: {
