@@ -15,6 +15,7 @@ export default class AuthService {
                 }
                 console.log('Success:', data);
                 localStorage.setItem('token', data.token);
+                localStorage.setItem('userRights', data.rights);
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -38,6 +39,7 @@ export default class AuthService {
             .catch(error => {
                 console.error('Error:', error);
             });
+        localStorage.removeItem('userRights');
     }
 
     static getCurrentUser() {
