@@ -31,6 +31,24 @@ export default class Controller {
             alert('Ошибка при сохранении данных: ' + result.error);
         }
     }
+    static async addRow(row) {
+        const response = await fetch(`http://195.133.18.211:3000/api/table/employees`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                authorization: 'Bearer ' + localStorage.getItem('token')
+            },
+            body: JSON.stringify({
+                employee: row
+            })
+        });
+        const result = await response.json();
+        if (response.ok) {
+            alert('Данные успешно сохранены.');
+        } else {
+            alert('Ошибка при сохранении данных: ' + result.error);
+        }
+    }
 }
 
 

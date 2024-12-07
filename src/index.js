@@ -1,4 +1,5 @@
 import Controller from './controller.js'
+
 document.addEventListener('DOMContentLoaded', () => {
     // Проверяем наличие токена в localStorage
     const token = localStorage.getItem('token');
@@ -7,6 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Если токена нет, перенаправляем на страницу авторизации
         window.location.href = './auth.html';
     }
+    document.querySelector('.add-row').addEventListener('click', showAddRecordForm);
+
 });
 let currentTable = '';
 let tableData = [];
@@ -17,7 +20,11 @@ document.getElementById('loadTableBtn').addEventListener('click', async function
     renderTable();
 })
 
+
+
 function renderTable() {
+    const addRecordForm = document.querySelector('.addRecordForm').style.display = 'none';
+    const tableDivs = document.getElementById('table-data').style.display = 'block';
     const tableDiv = document.getElementById('table-data');
     tableDiv.innerHTML = '';
 
@@ -65,21 +72,45 @@ function renderTable() {
     }
 }
 
-function addRow() {
+async function showAddRecordForm() {
+    const addRecordForm = document.querySelector('.addRecordForm');
+    if (addRecordForm.style.display === 'flex') {
+        alert("Форма уже загружена!");
+        return;
+    }
+    document.getElementById('table-data').style.display = 'none';
     if (currentTable === '') {
         alert('Пожалуйста, выберите таблицу.');
         return;
     }
-    const newRow = {};
-    const headers = tableData.length > 0 ? Object.keys(tableData[0]) : [];
-    headers.forEach(header => {
-        newRow[header] = '';
-    });
-    tableData.push(newRow);
-    renderTable();
+    addRecordForm.style.display = 'flex'
+    const inputFields = document.getElementById('input-fields');
+    inputFields.innerHTML = '';
+    const tableFields = Object.keys(tableData[0]);
+
+    tableFields.forEach(field => {
+        inputFields.innerHTML += '' +
+            `<label>${field}</label>\n` +
+            `<input id="${field}" required>`;
+    })
 }
+document.querySelector('#submit').addEventListener('click', async (event) => {
+    event.preventDefault();
+    console.log(123123);
+    const row = {}
+    const tableFields = Object.keys(tableData[0]);
+    tableFields.forEach(field => {
+        row[field] = document.getElementById(field).value;
+    });
+    await Controller.addRow(row);
+    renderTable();
+});
+document.getElementById('cancel').addEventListener('click', async (event) => {
+    event.preventDefault();
+    renderTable();
+});
 
 async function save(index) {
-    await Controller.saveRow(tableData[index]);
+    await Controller.updateRow(tableData[index]);
     renderTable();
 }

@@ -58,6 +58,90 @@
         button.add-row:hover {
             background-color: #0069d9;
         }
+        .addRecordForm {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Занимает всю высоту экрана */
+            background-color: #f4f4f9; /* Нежный фон */
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* Стили для внутреннего контейнера формы */
+        #form-container {
+            background: #ffffff; /* Белый фон */
+            padding: 20px 30px;
+            border-radius: 10px; /* Скругленные углы */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Лёгкая тень */
+            max-width: 400px; /* Максимальная ширина */
+            width: 100%; /* Растягивается на 100% внутри контейнера */
+            box-sizing: border-box;
+        }
+
+        /* Заголовок формы */
+        #form-container h2 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center; /* Центрирование заголовка */
+            color: #333; /* Тёмный текст */
+        }
+
+        /* Стили для меток (label) */
+        #form-container label {
+            display: block; /* Каждая метка на новой строке */
+            font-size: 14px;
+            margin-bottom: 5px;
+            color: #666; /* Серый текст */
+        }
+
+        /* Стили для текстовых полей */
+        #form-container input[type="text"],
+        #form-container input[type="date"],
+        #form-container textarea {
+            width: 100%; /* Растягиваются на всю ширину */
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd; /* Светло-серая рамка */
+            border-radius: 5px;
+            font-size: 14px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+
+        /* Стили для текстовой области */
+        #form-container textarea {
+            resize: none; /* Отключение изменения размера */
+            height: 80px;
+        }
+
+        /* Фокус на текстовых полях */
+        #form-container input:focus,
+        #form-container textarea:focus {
+            border-color: #4a90e2; /* Цвет рамки при фокусе */
+            outline: none;
+        }
+
+        /* Стили для кнопки */
+        #form-container button {
+            width: 100%; /* Ширина кнопки */
+            padding: 10px 15px;
+            background-color: #4a90e2; /* Синий фон */
+            color: #fff; /* Белый текст */
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Эффект наведения на кнопку */
+        #form-container button:hover {
+            background-color: #357ab7; /* Более тёмный синий */
+        }
+
     </style>
 </head>
 <body>
@@ -74,10 +158,24 @@
 </select>
 <button id="loadTableBtn">Загрузить таблицу</button>
 <button class="add-row">Добавить запись</button>
-<div id="table-data"></div>
+<div class="main">
+    <div id="table-data">
+    </div>
+    <div class="addRecordForm">
+        <div id="form-container">
+            <h2>Добавить запись</h2>
+            <form id="addRecordForm">
+                <div id="input-fields">
 
+                </div>
+                <button type="submit" id="submit">Сохранить</button>
+                <button type="reset">Сбросить</button>
+                <button id="cancel">Отмена</button>
+            </form>
+        </div>
+    </div>
+</div>
 <script src="./index.js">
-
 </script>
 </body>
 </html>
