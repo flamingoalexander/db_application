@@ -14,12 +14,15 @@ export default class Controller {
         return await response.json()
     }
     static async saveRow(row) {
-        const response = await fetch(`/api/table/employees`, {
+        const response = await fetch(`http://195.133.18.211:3000/api/table/employees`, {
             method: 'PATCH',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                authorization: 'Bearer ' + localStorage.getItem('token')
             },
-            body: JSON.stringify(row)
+            body: JSON.stringify({
+                employee: row
+            })
         });
         const result = await response.json();
         if (response.ok) {
