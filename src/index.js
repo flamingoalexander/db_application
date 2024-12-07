@@ -17,7 +17,6 @@ let tableData = [];
 document.getElementById('loadTableBtn').addEventListener('click', async () => {
     await loadTable();
     renderTable(currentTable);
-
 });
 
 async function loadTable() {
@@ -117,3 +116,7 @@ async function save(index) {
     await Controller.updateRow(tableData[index], currentTable);
     renderTable();
 }
+document.getElementById('table-select').addEventListener('change', async () => {
+    await loadTable();
+    renderTable(currentTable);
+});
