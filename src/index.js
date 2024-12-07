@@ -1,15 +1,12 @@
 import Controller from './controller.js'
-
-document.addEventListener('DOMContentLoaded', () => {
-    // Проверяем наличие токена в localStorage
+import AuthService  from "./js/AuthService";
+document.addEventListener('DOMContentLoaded', async () => {
     const token = localStorage.getItem('token');
-
     if (!token) {
-        // Если токена нет, перенаправляем на страницу авторизации
         window.location.href = './auth.html';
     }
-    document.querySelector('.add-row').addEventListener('click', showAddRecordForm);
-
+    await loadTable();
+    renderTable(currentTable)
 });
 let currentTable = '';
 let tableData = [];
@@ -120,3 +117,8 @@ document.getElementById('table-select').addEventListener('change', async () => {
     await loadTable();
     renderTable(currentTable);
 });
+document.getElementById('logout-button').addEventListener('click', async (event) => {
+    await AuthService.logout();
+    window.location.href = './auth.html';
+})
+document.querySelector('.add-row').addEventListener('click', showAddRecordForm);

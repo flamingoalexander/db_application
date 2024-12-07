@@ -141,11 +141,33 @@
         #form-container button:hover {
             background-color: #357ab7; /* Более тёмный синий */
         }
+        .logout-container {
+            display: flex;
+            justify-content: space-between; /* Выравнивание кнопки по правому краю */
+            margin-bottom: 20px;
+        }
 
+        #logout-button {
+            background-color: #dc3545; /* Красный фон */
+            color: #fff; /* Белый текст */
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #logout-button:hover {
+            background-color: #c82333; /* Более тёмный красный */
+        }
     </style>
 </head>
 <body>
-<h1>Просмотр и редактирование базы данных</h1>
+<div class="logout-container">
+    <h1>Просмотр и редактирование базы данных</h1>
+    <button id="logout-button">Выйти из системы</button>
+</div>
 <select id="table-select">
     <option value="employees">Сотрудники</option>
     <option value="disciplines">Дисциплины</option>
@@ -159,15 +181,12 @@
 <button id="loadTableBtn">Загрузить таблицу</button>
 <button class="add-row">Добавить запись</button>
 <div class="main">
-    <div id="table-data">
-    </div>
+    <div id="table-data"></div>
     <div class="addRecordForm">
         <div id="form-container">
             <h2>Добавить запись</h2>
             <form id="addRecordForm">
-                <div id="input-fields">
-
-                </div>
+                <div id="input-fields"></div>
                 <button type="submit" id="submit">Сохранить</button>
                 <button type="reset">Сбросить</button>
                 <button id="cancel">Отмена</button>
@@ -175,7 +194,6 @@
         </div>
     </div>
 </div>
-<script src="./index.js">
-</script>
+<script src="./index.js"></script>
 </body>
 </html>
