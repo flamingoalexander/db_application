@@ -13,8 +13,7 @@ let tableData = [];
 
 document.getElementById('loadTableBtn').addEventListener('click', async function loadTable() {
     currentTable = document.getElementById('table-select').value;
-    await Controller.loadTable(currentTable);
-    tableData = await response.json();
+    tableData = await Controller.loadTable(currentTable);
     renderTable();
 })
 
