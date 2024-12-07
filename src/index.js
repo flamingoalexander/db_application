@@ -1,3 +1,4 @@
+import Controller from './controller.js'
 document.addEventListener('DOMContentLoaded', () => {
     // Проверяем наличие токена в localStorage
     const token = localStorage.getItem('token');
@@ -12,17 +13,7 @@ let tableData = [];
 
 document.getElementById('loadTableBtn').addEventListener('click', async function loadTable() {
     currentTable = document.getElementById('table-select').value;
-    const response = await fetch('http://195.133.18.211:3000/api/query', {
-        method: 'POST',
-        mode: 'cors',
-        headers: {
-            'Content-Type': 'application/json',
-            authorization: 'Bearer ' + localStorage.getItem('token')
-        },
-        body: JSON.stringify({
-            query: `SELECT * FROM employees`,
-        })
-    })
+    await Controller.loadTable(currentTable);
     tableData = await response.json();
     renderTable();
 })
@@ -64,7 +55,7 @@ function renderTable() {
             const saveBtn = document.createElement('button');
             saveBtn.innerText = 'Сохранить';
             saveBtn.className = 'save-btn';
-            saveBtn.onclick = () => saveRow(index);
+            saveBtn.onclick = () => save(index);
             tdActions.appendChild(saveBtn);
             rowElem.appendChild(tdActions);
             tableElem.appendChild(rowElem);
@@ -89,37 +80,7 @@ function addRow() {
     renderTable();
 }
 
-async function saveRow(index) {
-    const row = tableData[index];
-    const response = await fetch(`/api/${currentTable}/update`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            query: `INSERT INTO employees (
-                    job_title,
-                    full_name,
-                    DOB,
-                    hiring_date,
-                    experience,
-                    academic_degree,
-                    education
-                ) VALUES (
-                 'Software Developer',
-                 'John Doe',
-                 '1990-05-15',
-                 '2020-06-01',
-                 '3 years 6 months',
-                 'Master of Science',
-                 'Computer Science');`,
-        })
-    });
-    const result = await response.json();
-    if (response.ok) {
-        alert('Данные успешно сохранены.');
-        await loadTable();
-    } else {
-        alert('Ошибка при сохранении данных: ' + result.error);
-    }
+async function save(index) {
+    await Controller.saveRow(tableData[index]);
+    renderTable();
 }
