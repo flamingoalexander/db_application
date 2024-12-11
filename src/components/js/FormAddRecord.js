@@ -12,11 +12,9 @@ export default class FormAddRecord {
                 row[field] = document.getElementById(field).value;
             });
             await Api.addRow(row, tableStorage.TableName);
-            //renderTable();
         });
         document.getElementById('cancel').addEventListener('click', async (event) => {
             event.preventDefault();
-            //renderTable();
         });
     }
     static async render() {
