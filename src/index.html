@@ -58,11 +58,10 @@
         button.add-row:hover {
             background-color: #0069d9;
         }
-        .addRecordForm {
+        .add-record-form {
             display: none;
             justify-content: center;
             align-items: center;
-            height: 100vh; /* Занимает всю высоту экрана */
             background-color: #f4f4f9; /* Нежный фон */
             padding: 20px;
             box-sizing: border-box;
@@ -174,17 +173,7 @@
 <button class="add-row">Добавить запись</button>
 <div class="main">
     <div id="table-data"></div>
-    <div class="addRecordForm">
-        <div id="form-container">
-            <h2>Добавить запись</h2>
-            <form id="addRecordForm">
-                <div id="input-fields"></div>
-                <button type="submit" id="submit">Сохранить</button>
-                <button type="reset">Сбросить</button>
-                <button id="cancel">Отмена</button>
-            </form>
-        </div>
-    </div>
+    <div id="add-record-form"></div>
 </div>
 <script src="./index.js"></script>
 </body>

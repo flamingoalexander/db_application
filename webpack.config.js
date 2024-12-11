@@ -26,4 +26,18 @@ module.exports = {
             inject: 'body',
         }),
     ],
+    module: {
+        rules: [
+            {
+                test: /\.html$/,
+                use: 'html-loader'
+            }
+        ]
+    },
+    resolve: {
+        alias: {
+            '@': path.resolve(__dirname, 'src'), // Псевдоним @ указывает на папку src
+        },
+        extensions: ['.js', '.json', 'html'], // Какие расширения учитывать при импорте
+    },
 };
