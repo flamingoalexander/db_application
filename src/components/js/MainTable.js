@@ -1,5 +1,5 @@
 import * as tableStorage from "@/state";
-
+import Controller from "@/controller";
 export default class MainTable {
     static renderTable() {
         const tableDiv = document.getElementById('table-data');
@@ -52,7 +52,7 @@ export default class MainTable {
                 const saveBtn = document.createElement('button');
                 saveBtn.innerText = 'Сохранить';
                 saveBtn.className = 'save-btn';
-                saveBtn.onclick = () => save(index);
+                saveBtn.onclick = () => Controller.save(index);
                 tdActions.appendChild(saveBtn);
                 rowElem.appendChild(tdActions);
                 tableElem.appendChild(rowElem);
