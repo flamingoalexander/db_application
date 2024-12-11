@@ -5,19 +5,20 @@ export default class FormAddRecord {
     static init() {
         document.querySelector('#submit').addEventListener('click', async (event) => {
             event.preventDefault();
-            console.log(123123);
             const row = {}
             const tableFields = Object.keys(tableStorage.TableData[0]);
+            console.log(tableFields);
             tableFields.forEach(field => {
-                row[field] = document.getElementById(field).value;
+                if (!field.includes('id')) {
+                    row[field] = document.getElementById(field).value;
+                }
             });
+            console.log(row);
             await Api.addRow(row, tableStorage.TableName);
         });
-        document.getElementById('cancel').addEventListener('click', async (event) => {
-            event.preventDefault();
-        });
+
     }
-    static async render() {
+    static render() {
         const FormAddRecordContainer =  document.getElementById('add-record-form');
         if (FormAddRecordContainer.style.display === 'flex') {
             alert("Форма уже загружена!");
@@ -49,6 +50,7 @@ export default class FormAddRecord {
                     `<input id="${field}" required>`;
             }
         })
+        this.init();
     }
     static hide(){
         const FormAddRecordContainer =  document.getElementById('add-record-form');

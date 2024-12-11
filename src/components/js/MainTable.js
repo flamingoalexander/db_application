@@ -36,6 +36,10 @@ export default class MainTable {
                         input.type = 'text';
                         input.value = row[header];
                     }
+                    if (header === 'experience') {
+                        input.value = row[header];
+                        input.type = 'time';
+                    }
                     input.dataset.field = header;
                     input.dataset.index = index;
                     input.onchange = (e) => {
@@ -57,5 +61,11 @@ export default class MainTable {
         } else {
             tableDiv.innerText = 'Данные отсутствуют.';
         }
+    }
+    static hide(){
+        document.getElementById('table-data').style.display = 'none';
+    }
+    static show(){
+        document.getElementById('table-data').style.display = 'block';
     }
 }

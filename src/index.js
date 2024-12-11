@@ -3,6 +3,7 @@ import AuthService  from "./js/AuthService";
 import * as tableStorage from "@/state";
 import FormAddRecord from "@/components/js/FormAddRecord";
 import MainTable from "@/components/js/MainTable";
+import Controller from "@/controller";
 document.addEventListener('DOMContentLoaded', async () => {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -38,16 +39,6 @@ async function loadTable() {
     tableStorage.setTableData(await Api.loadTable(tableStorage.TableName));
 }
 
-
-
-
-
-
-
-async function save(index) {
-    await Api.updateRow(tableStorage.TableData[index], tableStorage.TableName);
-    MainTable.renderTable();
-}
 document.getElementById('table-select').addEventListener('change', async () => {
     await loadTable();
     MainTable.renderTable();
@@ -56,4 +47,4 @@ document.getElementById('logout-button').addEventListener('click', async (event)
     await AuthService.logout();
     window.location.href = './auth.html';
 })
-document.querySelector('.add-row').addEventListener('click', FormAddRecord.render);
+document.querySelector('.add-row').addEventListener('click', Controller.openFormAddRecord);
