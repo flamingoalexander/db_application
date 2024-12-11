@@ -52,4 +52,8 @@ export default class FormAddRecord {
             }
         })
     }
+    static hide(){
+        const FormAddRecordContainer =  document.getElementById('add-record-form');
+        FormAddRecordContainer.style.display = 'none';
+    }
 }
