@@ -15,5 +15,11 @@
     "webpack": "^5.97.1",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.1.0"
+  },
+  "dependencies": {
+    "module-alias": "^2.2.3"
+  },
+  "_moduleAliases": {
+    "@": "./src"
   }
 }
