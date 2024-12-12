@@ -11,9 +11,7 @@ export default class FormAddRecord {
             console.log(row);
             const tableFields = Object.keys(tableStorage.TableData[0]);
             tableFields.forEach(field => {
-                if (!field.includes('id')) {
-                    row[field] = document.getElementById(field).value;
-                }
+                row[field] = document.getElementById(field).value;
             });
             console.log(row);
             await Api.addRow(row, tableStorage.TableName);
@@ -58,15 +56,7 @@ export default class FormAddRecord {
                                         <option>Обще-математическая</option>
                                         <option>Естественная</option>
                                         </select></div>`;
-            } else if (false) {
-                inputFields.innerHTML += `<div><select id="${field}" required>
-                                        <option>Гуманитарная-</option>
-                                        <option>Социально-экономическая</option>
-                                        <option>Обще-математическая</option>
-                                        <option>Естественная</option>
-                                        </select></div>`;
-            }
-            else {
+            } else {
                 inputFields.innerHTML += '' +
                     `<label>${field}</label>\n` +
                     `<input id="${field}" required>`;
