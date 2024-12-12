@@ -62,6 +62,25 @@ export default class Api {
             alert('Ошибка при добавлении данных: ' + err.error);
         }
     }
+    static async getPossibleValues() {
+        try {
+            const response = await fetch('http://195.133.18.211:3000/api/query', {
+                method: 'POST',
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                    authorization: 'Bearer ' + localStorage.getItem('token')
+                },
+                body: JSON.stringify({
+                    query: `SELECT * FROM get_enum_values('department_type_enum');`,
+                })
+            })
+            return await response.json()
+
+        } catch (err) {
+            alert('Что то пошло не так: ' + err.message)
+        }
+    }
 }
 
 

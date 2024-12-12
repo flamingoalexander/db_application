@@ -1,5 +1,6 @@
 import * as tableStorage from "@/state";
 import Controller from "@/controller";
+import Api from "@/js/api";
 export default class MainTable {
     static renderTable() {
         const tableDiv = document.getElementById('table-data');
@@ -22,12 +23,12 @@ export default class MainTable {
             headerRow.appendChild(thActions);
             tableElem.appendChild(headerRow);
             ////////////////////////////////////////////
-            tableStorage.TableData.forEach((row, index) => {
+            tableStorage.TableData.forEach(async (row, index) => {
                 const rowElem = document.createElement('tr');
                 headers.forEach(header => {
                     const td = document.createElement('td');
-                    const input = document.createElement('input');
-                    if (tableStorage.TableName === "employees_and_departments" || tableStorage.TableName === "disciplines_and_employees" || tableStorage.TableName === "disciplines_and_specialties"){
+                    let input = document.createElement('input');
+                    if (tableStorage.TableName === "employees_and_departments" || tableStorage.TableName === "disciplines_and_employees" || tableStorage.TableName === "disciplines_and_specialties" || tableStorage.TableName === "phone_numbers") {
                         input.type = 'number';
                         input.value = row[header];
                     } else {
@@ -36,18 +37,54 @@ export default class MainTable {
                                 input.type = 'date';
                                 input.value = new Date(row[header]).toISOString().split('T')[0];
 
-                            } else {
+                            } else if (header === 'experience') {
+                                input.value = row[header];
+                                input.type = 'time';
+                            } else if ((header.includes('id'))){
+                                input.type = 'number';
+                                input.value = row[header];
+                                input.disabled = true;
+                            }
+                            else {
                                 input.type = 'text';
                                 input.value = row[header];
                             }
-                            if (header === 'experience') {
-                                input.value = row[header];
-                                input.type = 'time';
-                            }
+                        } else if (tableStorage.TableName === "departments") {
                             if ((header.includes('id'))){
                                 input.type = 'number';
                                 input.value = row[header];
                                 input.disabled = true;
+
+                            }
+                            if (header === 'department_type'){
+                                input = document.createElement('select');
+                                input.innerHTML = `
+                                        <option>Факультет</option>
+                                        <option>Лаборатория</option>
+                                        <option>Кафедра</option>
+                                        <option>Отдел</option>`;
+                                input.value = row[header];
+                            } else {
+                                input.type = 'text';
+                                input.value = row[header];
+                            }
+                        } else if (tableStorage.TableName === "disciplines") {
+                            if ((header.includes('id'))){
+                                input.type = 'number';
+                                input.value = row[header];
+                                input.disabled = true;
+                            }
+                            if (header === 'discipline_type'){
+                                input = document.createElement('select');
+                                input.innerHTML = `
+                                        <option>Гуманитарная-</option>
+                                        <option>Социально-экономическая</option>
+                                        <option>Обще-математическая</option>
+                                        <option>Естественная</option>`;
+                                input.value = row[header];
+                            } else {
+                                input.type = 'text';
+                                input.value = row[header];
                             }
                         } else {
                             if ((header.includes('id'))){
@@ -58,6 +95,7 @@ export default class MainTable {
                             input.type = 'text';
                             input.value = row[header];
                         }
+
                         input.dataset.field = header;
                         input.dataset.index = index;
                         input.onchange = (e) => {
@@ -67,6 +105,7 @@ export default class MainTable {
                     td.appendChild(input);
                     rowElem.appendChild(td);
                 });
+
                 const tdActions = document.createElement('td');
                 const saveBtn = document.createElement('button');
                 saveBtn.innerText = 'Сохранить';
