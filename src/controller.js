@@ -21,5 +21,19 @@ export default class Controller {
             MainTable.renderTable();
             MainTable.show();
         });
+        document.querySelector('[type="submit"]').addEventListener('click', async (event) => {
+            event.preventDefault();
+            FormAddRecord.hide()
+            setTimeout(async () => {
+                await Controller.loadTable();
+                MainTable.renderTable();
+                MainTable.show();
+            }, 500);
+
+        });
+    }
+    static async loadTable() {
+        tableStorage.setTableName(document.getElementById('table-select').value);
+        tableStorage.setTableData(await Api.loadTable(tableStorage.TableName));
     }
 }

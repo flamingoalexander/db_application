@@ -30,17 +30,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 document.getElementById('loadTableBtn').addEventListener('click', async () => {
-    await loadTable();
+    await Controller.loadTable();
     MainTable.renderTable(tableStorage.TableName);
 });
 
-async function loadTable() {
-    tableStorage.setTableName(document.getElementById('table-select').value);
-    tableStorage.setTableData(await Api.loadTable(tableStorage.TableName));
-}
+
 
 document.getElementById('table-select').addEventListener('change', async () => {
-    await loadTable();
+    await Controller.loadTable();
     MainTable.renderTable();
 });
 document.getElementById('logout-button').addEventListener('click', async (event) => {

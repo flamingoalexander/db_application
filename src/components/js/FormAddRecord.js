@@ -1,13 +1,15 @@
 import Api from "../../js/api";
 import * as tableStorage from "@/state";
 import FormAddRecordFormHTML from "@/components/html/FormAddRecord.html";
+import MainTable from "@/components/js/MainTable";
 export default class FormAddRecord {
     static init() {
         document.querySelector('#submit').addEventListener('click', async (event) => {
             event.preventDefault();
             const row = {}
+            console.log(234);
+            console.log(row);
             const tableFields = Object.keys(tableStorage.TableData[0]);
-            console.log(tableFields);
             tableFields.forEach(field => {
                 if (!field.includes('id')) {
                     row[field] = document.getElementById(field).value;
@@ -36,13 +38,33 @@ export default class FormAddRecord {
         const tableFields = Object.keys(tableStorage.TableData[0]);
 
         tableFields.forEach(field => {
-            console.log(field);
             if (field === 'hiring_date' || field === 'dob') {
                 inputFields.innerHTML += '' +
                     `<label>${field}</label>\n` +
                     `<input id="${field}" type="date" required>`;
-            } else if (field.includes('id')) {
+            } else if (field.includes('id') && !(tableStorage.TableName === 'phone_numbers')) {
                 console.log(field);
+            } else if (field === 'department_type') {
+                inputFields.innerHTML += `<div><select id="${field}" required>
+                                        <option>Факультет</option>
+                                        <option>Лаборатория</option>
+                                        <option>Кафедра</option>
+                                        <option>Отдел</option>
+                                        </select></div>`;
+            } else if (field === 'discipline_type') {
+                inputFields.innerHTML += `<div><select id="${field}" required>
+                                        <option>Гуманитарная-</option>
+                                        <option>Социально-экономическая</option>
+                                        <option>Обще-математическая</option>
+                                        <option>Естественная</option>
+                                        </select></div>`;
+            } else if (false) {
+                inputFields.innerHTML += `<div><select id="${field}" required>
+                                        <option>Гуманитарная-</option>
+                                        <option>Социально-экономическая</option>
+                                        <option>Обще-математическая</option>
+                                        <option>Естественная</option>
+                                        </select></div>`;
             }
             else {
                 inputFields.innerHTML += '' +
