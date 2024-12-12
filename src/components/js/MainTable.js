@@ -27,24 +27,43 @@ export default class MainTable {
                 headers.forEach(header => {
                     const td = document.createElement('td');
                     const input = document.createElement('input');
-
-                    if (header === 'hiring_date' || header === 'dob') {
-                        input.type = 'date';
-                        input.value = new Date(row[header]).toISOString().split('T')[0];
-
+                    if (tableStorage.TableName === "employees_and_departments" || tableStorage.TableName === "disciplines_and_employees" || tableStorage.TableName === "disciplines_and_specialties"){
+                        input.type = 'number';
+                        input.value = row[header];
                     } else {
-                        input.type = 'text';
-                        input.value = row[header];
+                        if (tableStorage.TableName === "employees") {
+                            if (header === 'hiring_date' || header === 'dob') {
+                                input.type = 'date';
+                                input.value = new Date(row[header]).toISOString().split('T')[0];
+
+                            } else {
+                                input.type = 'text';
+                                input.value = row[header];
+                            }
+                            if (header === 'experience') {
+                                input.value = row[header];
+                                input.type = 'time';
+                            }
+                            if ((header.includes('id'))){
+                                input.type = 'number';
+                                input.value = row[header];
+                                input.disabled = true;
+                            }
+                        } else {
+                            if ((header.includes('id'))){
+                                input.type = 'number';
+                                input.value = row[header];
+                                input.disabled = true;
+                            }
+                            input.type = 'text';
+                            input.value = row[header];
+                        }
+                        input.dataset.field = header;
+                        input.dataset.index = index;
+                        input.onchange = (e) => {
+                            tableStorage.TableData[index][header] = e.target.value;
+                        };
                     }
-                    if (header === 'experience') {
-                        input.value = row[header];
-                        input.type = 'time';
-                    }
-                    input.dataset.field = header;
-                    input.dataset.index = index;
-                    input.onchange = (e) => {
-                        tableStorage.TableData[index][header] = e.target.value;
-                    };
                     td.appendChild(input);
                     rowElem.appendChild(td);
                 });
