@@ -40,7 +40,7 @@ export default class FormAddRecord {
                 inputFields.innerHTML += '' +
                     `<label>${field}</label>\n` +
                     `<input id="${field}" type="date" required>`;
-            } else if (field.includes('id') && !(tableStorage.TableName === 'phone_numbers')) {
+            } else if (field.includes('id') && !(tableStorage.TableName === 'phone_numbers') && !(tableStorage.TableName === 'disciplines_and_specialties') && !(tableStorage.TableName === 'disciplines_and_employees') && !(tableStorage.TableName === 'employees_and_departments')) {
                 console.log(field);
             } else if (field === 'department_type') {
                 inputFields.innerHTML += `<div><select id="${field}" required>
