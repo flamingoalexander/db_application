@@ -1,5 +1,4 @@
 import FormAddRecord from './components/js/FormAddRecord';
-import { currentTableData, currentTableName} from "./state";
 import Api from "@/js/api";
 import * as tableStorage from "@/state";
 import MainTable from "@/components/js/MainTable";
@@ -9,6 +8,12 @@ export default class Controller {
 
     }
     static async save(index) {
+        if (tableStorage.TableName == 'employees') {
+            const row = tableStorage.TableData[index]
+            row.experience = {
+                years: tableStorage.TableData[index].experience,
+            }
+        }
         await Api.updateRow(tableStorage.TableData[index], tableStorage.TableName);
         MainTable.renderTable();
     }

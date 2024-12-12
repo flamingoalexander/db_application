@@ -21,6 +21,7 @@ export default class Api {
 
     static async updateRow(row, tableName) {
         try {
+            console.log(row);
             const response = await fetch(`http://195.133.18.211:3000/api/table/${tableName}`, {
                 method: 'PATCH',
                 headers: {
