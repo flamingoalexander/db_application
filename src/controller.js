@@ -17,6 +17,11 @@ export default class Controller {
         await Api.updateRow(tableStorage.TableData[index], tableStorage.TableName);
         MainTable.renderTable();
     }
+    static async delete(index) {
+        await Api.deleteRow(tableStorage.TableData[index], tableStorage.TableName);
+        await Api.loadTable(tableStorage.TableName);
+        MainTable.renderTable();
+    }
     static async openFormAddRecord() {
         MainTable.hide();
         FormAddRecord.render();

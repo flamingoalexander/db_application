@@ -1,5 +1,11 @@
 
 export default class Api {
+    static keyValues = {
+        employees : 'employee_id',
+        disciplines: 'discipline_id',
+        specialties : 'speciality_id',
+        departments : 'department_id',
+    }
     static async loadTable(tableName) {
         try {
             const response = await fetch('http://195.133.18.211:3000/api/query', {
@@ -36,6 +42,45 @@ export default class Api {
             else {
                 const body = await response.json()
                 alert('Ошибка при сохранении данных: ' + body.message);
+            }
+        } catch (err) {
+            alert('Ошибка при сохранении данных: ' + err.message);
+            console.error(err);
+        }
+    }
+    static async deleteRow(row, tableName) {
+        try {
+            const keyValue = this.keyValues[tableName];
+            let response = 0;
+            if (tableName === undefined) {
+                if (tableName === 'disciplines_and_employees') {
+
+                } else if (tableName === 'disciplines_and_specialties') {
+
+                } else if (tableName === 'employees_and_departments`') {
+
+                } else if (tableName === 'phone_numbers') {
+
+                }
+
+            } else {
+                response = await fetch(`http://195.133.18.211:3000/api/table/${tableName}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        authorization: 'Bearer ' + localStorage.getItem('token')
+                    },
+                    body: JSON.stringify({
+                        [keyValue]: row[keyValue]
+                    })
+                });
+                if (response.ok) {
+                    alert('Данные успешно сохранены.');
+                }
+                else {
+                    const body = await response.json()
+                    alert('Ошибка при сохранении данных: ' + body.message);
+                }
             }
         } catch (err) {
             alert('Ошибка при сохранении данных: ' + err.message);

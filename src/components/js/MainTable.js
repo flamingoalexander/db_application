@@ -108,10 +108,17 @@ export default class MainTable {
 
                 const tdActions = document.createElement('td');
                 const saveBtn = document.createElement('button');
+                saveBtn.onclick = () => Controller.save(index);
                 saveBtn.innerText = 'Сохранить';
                 saveBtn.className = 'save-btn';
-                saveBtn.onclick = () => Controller.save(index);
+                const deleteBtn = document.createElement('button');
+                deleteBtn.innerText = 'Удалить';
+                deleteBtn.className = 'delete-btn';
+                deleteBtn.onclick = () => Controller.delete(index);
                 tdActions.appendChild(saveBtn);
+                tdActions.appendChild(deleteBtn);
+                tdActions.style.display = 'flex';
+                tdActions.style.justifyContent = 'space-between';
                 rowElem.appendChild(tdActions);
                 tableElem.appendChild(rowElem);
             });

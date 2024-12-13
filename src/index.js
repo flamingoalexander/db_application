@@ -35,7 +35,6 @@ document.getElementById('loadTableBtn').addEventListener('click', async () => {
 });
 
 
-
 document.getElementById('table-select').addEventListener('change', async () => {
     await Controller.loadTable();
     MainTable.renderTable();
