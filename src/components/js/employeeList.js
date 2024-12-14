@@ -1,4 +1,3 @@
-
 async function loadTable(tableName) {
     try {
         const response = await fetch('http://195.133.18.211:3000/api/query', {
@@ -20,10 +19,10 @@ async function loadTable(tableName) {
 async function init(){
     const tableDiv = document.getElementById('table-doc');
     tableDiv.innerHTML = '';
-
+    const inputElem = document.getElementById('experience');
+    const years_count = inputElem.value;
     const tableElem = document.createElement('table');
-    const spravochnik = await loadTable('get_employees_with_departments_and_phones()')
-    console.log(spravochnik);
+    const spravochnik = await loadTable(`get_employees_by_experience(INTERVAL '${years_count} year');`)
     const headers = Object.keys(spravochnik[0]);
 
     const headerRow = document.createElement('tr');
@@ -35,13 +34,18 @@ async function init(){
 
     tableElem.appendChild(headerRow);
 ////////////////////////////////////////////
-
     spravochnik.forEach((row) => {
         const rowElem = document.createElement('tr');
         headers.forEach(header => {
             const td = document.createElement('td');
             let input = document.createElement('div');
-            input.innerHTML = row[header];
+            if (header == 'experience') {
+                input.innerHTML = row[header].years;
+                console.log(row[header]);
+            }
+            else{
+                input.innerHTML = row[header];
+            }
             td.appendChild(input);
             rowElem.appendChild(td);
         });
@@ -49,4 +53,4 @@ async function init(){
     });
     tableDiv.appendChild(tableElem);
 }
-document.addEventListener('DOMContentLoaded', init);
+document.querySelector('#load-table').addEventListener('click', init);
