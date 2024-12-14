@@ -50,6 +50,7 @@ export default class Api {
     }
     static async deleteRow(row, tableName) {
         try {
+            console.log(row);
             const keyValue = this.keyValues[tableName];
             let response = 0;
             if (keyValue === undefined) {
@@ -60,7 +61,24 @@ export default class Api {
                 } else if (tableName === 'employees_and_departments`') {
 
                 } else if (tableName === 'phone_numbers') {
-
+                    response = await fetch(`http://195.133.18.211:3000/api/table/${tableName}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            authorization: 'Bearer ' + localStorage.getItem('token')
+                        },
+                        body: JSON.stringify({
+                            phone_number: row.phone_number,
+                            employee_id: row.employee_id
+                        })
+                    });
+                    if (response.ok) {
+                        alert('Данные успешно сохранены.');
+                    }
+                    else {
+                        const body = await response.json()
+                        alert('Ошибка при сохранении данных: ' + body.message);
+                    }
                 }
 
             } else {

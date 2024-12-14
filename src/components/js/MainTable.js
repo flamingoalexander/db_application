@@ -29,6 +29,9 @@ export default class MainTable {
                     const td = document.createElement('td');
                     let input = document.createElement('input');
                     if (tableStorage.TableName === "employees_and_departments" || tableStorage.TableName === "disciplines_and_employees" || tableStorage.TableName === "disciplines_and_specialties" || tableStorage.TableName === "phone_numbers") {
+                        if (tableStorage.TableName === "phone_numbers"){
+
+                        }
                         input.type = 'number';
                         input.value = row[header];
                     } else {
@@ -115,8 +118,10 @@ export default class MainTable {
                 deleteBtn.innerText = 'Удалить';
                 deleteBtn.className = 'delete-btn';
                 deleteBtn.onclick = () => Controller.delete(index);
-                tdActions.appendChild(saveBtn);
                 tdActions.appendChild(deleteBtn);
+                if (!(tableStorage.TableName === "employees_and_departments" || tableStorage.TableName === "disciplines_and_employees" || tableStorage.TableName === "disciplines_and_specialties" || tableStorage.TableName === "phone_numbers")){
+                    tdActions.appendChild(saveBtn);
+                }
                 tdActions.style.display = 'flex';
                 tdActions.style.justifyContent = 'space-between';
                 rowElem.appendChild(tdActions);
