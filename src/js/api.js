@@ -19,6 +19,13 @@ export default class Api {
                     query: `SELECT * FROM ${tableName}`,
                 })
             })
+            if (tableName === 'employees') {
+                const result = await response.json();
+                result.forEach(employee => {
+                    employee.experience = employee.experience.years;
+                })
+                return result;
+            }
             return await response.json()
         } catch (err) {
             alert('Что то пошло не так: ' + err.message)
@@ -27,6 +34,7 @@ export default class Api {
 
     static async updateRow(row, tableName) {
         try {
+            console.log(12312312);
             console.log(row);
             const response = await fetch(`http://195.133.18.211:3000/api/table/${tableName}`, {
                 method: 'PATCH',
@@ -158,6 +166,9 @@ export default class Api {
     }
     static async addRow(row, tableName) {
         try {
+            if (tableName === 'employees') {
+                row.experience = row.experience.split(" ")[0];
+            }
             const response = await fetch(`http://195.133.18.211:3000/api/table/${tableName}`, {
                 method: 'PUT',
                 headers: {

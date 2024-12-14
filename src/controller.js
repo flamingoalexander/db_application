@@ -8,13 +8,10 @@ export default class Controller {
 
     }
     static async save(index) {
-        if (tableStorage.TableName == 'employees') {
-            console.log(tableStorage.TableData[index])
+        if (tableStorage.TableName === 'employees') {
             const row = tableStorage.TableData[index]
-            row.experience = {
-                years: tableStorage.TableData[index].experience.years,
-            }
-
+            console.log(2351245)
+            console.log(row)
         }
         await Api.updateRow(tableStorage.TableData[index], tableStorage.TableName);
         MainTable.renderTable();

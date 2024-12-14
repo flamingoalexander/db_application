@@ -41,7 +41,7 @@ export default class MainTable {
                                 input.value = new Date(row[header]).toISOString().split('T')[0];
 
                             } else if (header === 'experience') {
-                                input.value = row[header].years;
+                                input.value = row[header];
                                 input.type = 'number';
                             } else if ((header.includes('id'))){
                                 input.type = 'number';
