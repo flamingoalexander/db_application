@@ -13,6 +13,7 @@ export default class Controller {
             row.experience = {
                 years: tableStorage.TableData[index].experience,
             }
+
         }
         await Api.updateRow(tableStorage.TableData[index], tableStorage.TableName);
         MainTable.renderTable();

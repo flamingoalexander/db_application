@@ -8,10 +8,11 @@ export default class FormAddRecord {
             event.preventDefault();
             const row = {}
             console.log(234);
-            console.log(row);
             const tableFields = Object.keys(tableStorage.TableData[0]);
             tableFields.forEach(field => {
-                row[field] = document.getElementById(field).value;
+                if (document.getElementById(field)) {
+                    row[field] = document.getElementById(field).value;
+                }
             });
             console.log(row);
             await Api.addRow(row, tableStorage.TableName);
@@ -59,7 +60,7 @@ export default class FormAddRecord {
             } else {
                 inputFields.innerHTML += '' +
                     `<label>${field}</label>\n` +
-                    `<input id="${field}" required>`;
+                    `<input id="${field}" required >`;
             }
         })
         this.init();

@@ -52,7 +52,7 @@ export default class Api {
         try {
             const keyValue = this.keyValues[tableName];
             let response = 0;
-            if (tableName === undefined) {
+            if (keyValue === undefined) {
                 if (tableName === 'disciplines_and_employees') {
 
                 } else if (tableName === 'disciplines_and_specialties') {
