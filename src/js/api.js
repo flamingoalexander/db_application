@@ -55,11 +55,62 @@ export default class Api {
             let response = 0;
             if (keyValue === undefined) {
                 if (tableName === 'disciplines_and_employees') {
-
+                    response = await fetch(`http://195.133.18.211:3000/api/table/${tableName}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            authorization: 'Bearer ' + localStorage.getItem('token')
+                        },
+                        body: JSON.stringify({
+                            discipline_id: row.discipline_id,
+                            employee_id: row.employee_id
+                        })
+                    });
+                    if (response.ok) {
+                        alert('Данные успешно сохранены.');
+                    }
+                    else {
+                        const body = await response.json()
+                        alert('Ошибка при сохранении данных: ' + body.message);
+                    }
                 } else if (tableName === 'disciplines_and_specialties') {
-
-                } else if (tableName === 'employees_and_departments`') {
-
+                    response = await fetch(`http://195.133.18.211:3000/api/table/${tableName}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            authorization: 'Bearer ' + localStorage.getItem('token')
+                        },
+                        body: JSON.stringify({
+                            discipline_id: row.discipline_id,
+                            speciality_id: row.speciality_id
+                        })
+                    });
+                    if (response.ok) {
+                        alert('Данные успешно сохранены.');
+                    }
+                    else {
+                        const body = await response.json()
+                        alert('Ошибка при сохранении данных: ' + body.message);
+                    }
+                } else if (tableName === 'employees_and_departments') {
+                    response = await fetch(`http://195.133.18.211:3000/api/table/${tableName}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            authorization: 'Bearer ' + localStorage.getItem('token')
+                        },
+                        body: JSON.stringify({
+                            employee_id: row.employee_id,
+                            department_id: row.department_id
+                        })
+                    });
+                    if (response.ok) {
+                        alert('Данные успешно сохранены.');
+                    }
+                    else {
+                        const body = await response.json()
+                        alert('Ошибка при сохранении данных: ' + body.message);
+                    }
                 } else if (tableName === 'phone_numbers') {
                     response = await fetch(`http://195.133.18.211:3000/api/table/${tableName}`, {
                         method: 'DELETE',

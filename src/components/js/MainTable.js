@@ -32,7 +32,7 @@ export default class MainTable {
                         if (tableStorage.TableName === "phone_numbers"){
 
                         }
-                        input.type = 'number';
+                        input.disabled = true;
                         input.value = row[header];
                     } else {
                         if (tableStorage.TableName === "employees") {
