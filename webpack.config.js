@@ -31,6 +31,12 @@ module.exports = {
             chunks: ['phoneNumbersDoc'], // Указывает, какие сборки подключать
             inject: 'body',
         }),
+        new HtmlWebpackPlugin({
+            template: './src/components/html/employeeList.html', // Шаблон для страницы авторизации
+            filename: 'employeeList.html', // Имя выходного HTML файла
+            chunks: ['employeeList'], // Указывает, какие сборки подключать
+            inject: 'body',
+        }),
     ],
     module: {
         rules: [

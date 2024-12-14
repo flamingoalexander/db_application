@@ -48,3 +48,7 @@ document.querySelector('.add-row').addEventListener('click', Controller.openForm
 document.getElementById('phone-numbers-doc').addEventListener('click', async (event) => {
     window.location.href = './phoneNumbersDoc.html';
 })
+
+document.getElementById('employee-list').addEventListener('click', async (event) => {
+    window.location.href = './employeeList.html';
+})

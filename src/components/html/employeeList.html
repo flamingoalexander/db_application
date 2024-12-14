@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="table-doc"></div>
+<button id="export-to-excel" onclick="exportTableToExcel()">ЭКСПОРТИРОВАТЬ В EXCEL</button>
+<script src="../js/phoneNumberdoc.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script>
+    function exportTableToExcel() {
+        const table = document.querySelector('#table-doc>table');
+
+        // Конвертируем таблицу в формат SheetJS
+        const workbook = XLSX.utils.table_to_book(table, {sheet: "Sheet1"});
+
+        // Экспортируем в файл Excel
+        XLSX.writeFile(workbook, 'table_export.xlsx');
+    }
+</script>
+</body>
+</html>
