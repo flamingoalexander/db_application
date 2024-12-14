@@ -5,14 +5,24 @@
     <title>Title</title>
 </head>
 <body>
+<div>
+    <h3>Документ "Список сотрудников, стаж работы которых не превышает заданной цифры"</h3>
+    <label>Введите максимально допустимый стаж</label>
+</div>
+
 <input type="number" value="1" id="experience">
-<button id="load-table">Загрузать таблицу</button>
+<button id="load-table">Загрузить таблицу</button>
 <div id="table-doc"></div>
 <button id="export-to-excel" onclick="exportTableToExcel()">ЭКСПОРТИРОВАТЬ В EXCEL</button>
 <script src="../js/employeeList.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script>
     function exportTableToExcel() {
+        const tableDiv = document.getElementById('table-doc');
+        if (tableDiv.innerHTML === 'Пустая таблица' || tableDiv.innerHTML === '' ) {
+            alert("Таблица пустая или не загружена")
+            return;
+        }
         const table = document.querySelector('#table-doc>table');
 
         // Конвертируем таблицу в формат SheetJS

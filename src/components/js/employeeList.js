@@ -23,6 +23,10 @@ async function init(){
     const years_count = inputElem.value;
     const tableElem = document.createElement('table');
     const spravochnik = await loadTable(`get_employees_by_experience(INTERVAL '${years_count} year');`)
+    if (spravochnik.length === 0) {
+        tableDiv.innerHTML = 'Пустая таблица';
+        return false;
+    }
     const headers = Object.keys(spravochnik[0]);
 
     const headerRow = document.createElement('tr');
