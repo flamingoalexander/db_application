@@ -46,5 +46,5 @@ document.getElementById('logout-button').addEventListener('click', async (event)
 document.querySelector('.add-row').addEventListener('click', Controller.openFormAddRecord);
 
 document.getElementById('phone-numbers-doc').addEventListener('click', async (event) => {
-    window.location.href = './components/html/phoneNumbers.html';
+    window.location.href = './phoneNumbersDoc.html';
 })

@@ -25,6 +25,12 @@ module.exports = {
             chunks: ['auth'], // Указывает, какие сборки подключать
             inject: 'body',
         }),
+        new HtmlWebpackPlugin({
+            template: './src/components/html/phoneNumbersDoc.html', // Шаблон для страницы авторизации
+            filename: 'phoneNumbersDoc.html', // Имя выходного HTML файла
+            chunks: ['phoneNumbersDoc'], // Указывает, какие сборки подключать
+            inject: 'body',
+        }),
     ],
     module: {
         rules: [
