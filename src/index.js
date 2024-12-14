@@ -52,3 +52,7 @@ document.getElementById('phone-numbers-doc').addEventListener('click', async (ev
 document.getElementById('employee-list').addEventListener('click', async (event) => {
     window.location.href = './employeeList.html';
 })
+
+document.getElementById('employee-data').addEventListener('click', async (event) => {
+    window.location.href = './employeeData.html';
+})

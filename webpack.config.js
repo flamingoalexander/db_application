@@ -37,6 +37,12 @@ module.exports = {
             chunks: ['employeeList'], // Указывает, какие сборки подключать
             inject: 'body',
         }),
+        new HtmlWebpackPlugin({
+            template: './src/components/html/employeeData.html', // Шаблон для страницы авторизации
+            filename: 'employeeData.html', // Имя выходного HTML файла
+            chunks: ['employeeData'], // Указывает, какие сборки подключать
+            inject: 'body',
+        }),
     ],
     module: {
         rules: [

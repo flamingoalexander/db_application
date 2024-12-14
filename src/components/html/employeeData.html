@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Экспорт в Word</title>
+    <script src="https://cdn.jsdelivr.net/npm/docx"></script>
+</head>
+<body>
+<h1>Создать Word-документ</h1>
+<input type="text" id="spec-name" placeholder="Введите полное имя специальности">
+<select id="disc-type">
+    <option>Гуманитарная-</option>
+    <option>Социально-экономическая</option>
+    <option>Обще-математическая</option>
+    <option>Естественная</option>
+</select>
+<button id="generateDoc">Скачать Word-документ</button>
+
+<script>
+    async function loadTable(tableName) {
+        try {
+            const response = await fetch('http://195.133.18.211:3000/api/query', {
+                method: 'POST',
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                    authorization: 'Bearer ' + localStorage.getItem('token')
+                },
+                body: JSON.stringify({
+                    query: `SELECT * FROM ${tableName}`,
+                })
+            })
+            return await response.json()
+        } catch (err) {
+            alert('Что то пошло не так: ' + err.message)
+        }
+    }
+    document.getElementById("generateDoc").addEventListener("click", async () => {
+        const { Document, Packer, Paragraph, Table, TableRow, TableCell, TextRun } = docx;
+        const specName = document.getElementById('spec-name').value;
+        const discType = document.getElementById('disc-type').value;
+        const spravochnik = await loadTable(`get_teachers_by_specialty_and_discipline('${specName}', '${discType}');`)
+        // Создаем новый документ
+        const generateTableRows = () => {
+            const rows = [];
+            spravochnik.forEach((element, index) =>{
+                rows.push(
+                    new TableRow({
+                        children: [
+                            new TableCell({children: [new Paragraph(`${index+1}`)]}), // № п/п
+                            new TableCell({children: [new Paragraph(element.full_name)]}), // ФИО
+                            new TableCell({children: [new Paragraph(element.education)]}), // ВУЗ
+                            new TableCell({children: [new Paragraph(element.academic_degree)]}), // Ученая степень
+                            new TableCell({children: [new Paragraph(`${element.experience.years}`)]}), // Стаж
+                            new TableCell({children: [new Paragraph(element.job_title)]}), // Основное место работы
+                        ],
+                    })
+                );
+            });
+            return rows;
+        };
+
+        // Количество строк с данными
+        const numRows = 5;
+
+        // Создаем новый документ
+        const doc = new Document({
+            sections: [
+                {
+                    children: [
+                        // Заголовок документа
+                        new Paragraph({
+                            text: "Сведения о лицах с учеными степенями и учеными званиями",
+                            heading: "Title",
+                            alignment: "CENTER",
+                        }),
+                        new Paragraph({
+                            text: "Иркутский национальный исследовательский технический университет",
+                            alignment: "CENTER",
+                        }),
+                        new Paragraph({
+                            text: "(наименование вуза)",
+                            alignment: "CENTER",
+                        }),
+                        new Paragraph({ text: "" }), // Пустая строка
+                        new Paragraph({
+                            text: "Код профиля – Название профиля",
+                            alignment: "CENTER",
+                        }),
+                        new Paragraph({ text: "" }),
+                        new Paragraph({
+                            text: "(наименование гуманитарных, социально-экономических, общих математических и естественных дисциплин в целом по вузу или код, наименование образовательной программы, общепрофессиональные и специальные дисциплины)",
+                            alignment: "CENTER",
+                        }),
+                        new Paragraph({ text: "" }),
+
+                        // Таблица
+                        new Table({
+                            rows: [
+                                // Заголовок таблицы
+                                new TableRow({
+                                    children: [
+                                        new TableCell({ children: [new Paragraph("№ п/п")] }),
+                                        new TableCell({ children: [new Paragraph("Ведущие преподаватели по дисциплинам (ФИО)")] }),
+                                        new TableCell({ children: [new Paragraph("ВУЗ, специальность по диплому")] }),
+                                        new TableCell({ children: [new Paragraph("Ученая степень и ученое звание")] }),
+                                        new TableCell({ children: [new Paragraph("Стаж научно-педагогической работы по специальности")] }),
+                                        new TableCell({ children: [new Paragraph("Основное место работы, должность")] }),
+                                    ],
+                                }),
+                                // Сгенерированные строки таблицы
+                                ...generateTableRows(numRows),
+                            ],
+                            width: {
+                                size: 100,
+                                type: "pct",
+                            },
+                        }),
+
+                        // Подписи и итоги
+                        new Paragraph({ text: "" }),
+                        new Paragraph({ text: "Всего:" }),
+                        new Paragraph({ text: "общая численность преподавателей, привлекаемых к реализации соответствующих циклов дисциплин ___ чел." }),
+                        new Paragraph({ text: "Лиц с учеными степенями и учеными званиями ___ чел." }),
+                        new Paragraph({ text: "Наличие документов об участии в учебном процессе в вузе всех лиц, поименованных в списке, имеется." }),
+                        new Paragraph({ text: "Поименованные лица не имеют запрета на педагогическую деятельность приговором суда или по медицинским показаниям." }),
+                        new Paragraph({ text: "" }),
+                        new Paragraph({
+                            text: "Проректор по учебной работе ____________________/ФИО проректора/",
+                            alignment: "CENTER",
+                        }),
+                    ],
+                },
+            ],
+        });
+
+        // Генерация документа и загрузка
+        Packer.toBlob(doc).then((blob) => {
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "Сведения_о_лицах.docx";
+            link.click();
+        });
+    });
+</script>
+</body>
+</html>
