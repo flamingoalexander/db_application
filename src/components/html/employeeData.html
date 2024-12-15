@@ -8,9 +8,10 @@
 </head>
 <body>
 <h1>Создать Word-документ</h1>
-<input type="text" id="spec-name" placeholder="Введите полное имя специальности">
+<select id="spec-name">
+</select>
 <select id="disc-type">
-    <option>Гуманитарная-</option>
+    <option>Гуманитарная</option>
     <option>Социально-экономическая</option>
     <option>Обще-математическая</option>
     <option>Естественная</option>
@@ -18,7 +19,7 @@
 <button id="generateDoc">Скачать Word-документ</button>
 
 <script>
-    async function loadTable(tableName) {
+    async function loadTable(tableName, column = "*") {
         try {
             const response = await fetch('http://195.133.18.211:3000/api/query', {
                 method: 'POST',
@@ -28,7 +29,7 @@
                     authorization: 'Bearer ' + localStorage.getItem('token')
                 },
                 body: JSON.stringify({
-                    query: `SELECT * FROM ${tableName}`,
+                    query: `SELECT ${column} FROM ${tableName}`,
                 })
             })
             return await response.json()
@@ -36,10 +37,20 @@
             alert('Что-то пошло не так: ' + err.message)
         }
     }
+    document.addEventListener('DOMContentLoaded', async function () {
+        const specName = document.getElementById('spec-name')
+        specName.innerHTML = '';
+        const specialty_names = await loadTable(`specialties`, 'speciality_name');
+        specialty_names.forEach((specialty) => {
+            specName.innerHTML += `<option>${specialty.speciality_name}</option>`;
+        });
+    });
     document.getElementById("generateDoc").addEventListener("click", async () => {
         const { Document, Packer, Paragraph, Table, TableRow, TableCell, TextRun } = docx;
         const specName = document.getElementById('spec-name').value;
         const discType = document.getElementById('disc-type').value;
+        console.log(specName)
+        console.log(discType)
         const spravochnik = await loadTable(`get_teachers_by_specialty_and_discipline('${specName}', '${discType}');`);
 
         // Создаем строки таблицы

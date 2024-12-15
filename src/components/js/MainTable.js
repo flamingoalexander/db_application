@@ -80,7 +80,7 @@ export default class MainTable {
                             if (header === 'discipline_type'){
                                 input = document.createElement('select');
                                 input.innerHTML = `
-                                        <option>Гуманитарная-</option>
+                                        <option>Гуманитарная</option>
                                         <option>Социально-экономическая</option>
                                         <option>Обще-математическая</option>
                                         <option>Естественная</option>`;

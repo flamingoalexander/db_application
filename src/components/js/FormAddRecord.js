@@ -52,7 +52,7 @@ export default class FormAddRecord {
                                         </select></div>`;
             } else if (field === 'discipline_type') {
                 inputFields.innerHTML += `<div><select id="${field}" required>
-                                        <option>Гуманитарная-</option>
+                                        <option>Гуманитарная</option>
                                         <option>Социально-экономическая</option>
                                         <option>Обще-математическая</option>
                                         <option>Естественная</option>
