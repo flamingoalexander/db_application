@@ -9,15 +9,67 @@
 <button id="export-to-excel" onclick="exportTableToExcel()">ЭКСПОРТИРОВАТЬ В EXCEL</button>
 <script src="../js/phoneNumberdoc.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/exceljs/dist/exceljs.min.js"></script>
 <script>
     function exportTableToExcel() {
+        const tableDiv = document.getElementById('table-doc');
+        if (tableDiv.innerHTML === 'Пустая таблица' || tableDiv.innerHTML === '') {
+            alert("Таблица пустая или не загружена");
+            return;
+        }
+
+        // Находим таблицу внутри #table-doc
         const table = document.querySelector('#table-doc>table');
+        if (!table) {
+            alert("Таблица не найдена!");
+            return;
+        }
 
-        // Конвертируем таблицу в формат SheetJS
-        const workbook = XLSX.utils.table_to_book(table, {sheet: "Sheet1"});
+        // Подключаем ExcelJS
+        const workbook = new ExcelJS.Workbook();
+        const sheet = workbook.addWorksheet("Sheet1");
 
-        // Экспортируем в файл Excel
-        XLSX.writeFile(workbook, 'table_export.xlsx');
+        // Добавляем заголовок таблицы
+        const headerText = `Телефонный справочник`; // Здесь вы можете вставить свой заголовок
+        const headerRow = sheet.addRow([headerText]);
+        headerRow.font = { bold: true, size: 14 }; // Стиль для заголовка
+        headerRow.alignment = { horizontal: "center" }; // Центрируем заголовок
+        sheet.mergeCells(`A1:${String.fromCharCode(65 + table.rows[0].cells.length - 1)}1`); // Объединяем ячейки для заголовка
+
+        // Читаем данные из таблицы
+        const rows = table.querySelectorAll('tr');
+        rows.forEach((row) => {
+            const rowData = [];
+            row.querySelectorAll('th, td').forEach((cell) => {
+                rowData.push(cell.innerText.trim());
+            });
+            sheet.addRow(rowData);
+        });
+
+        // Устанавливаем ширину колонок и выравнивание по ширине
+        const columnCount = table.querySelectorAll('tr:first-child th, tr:first-child td').length;
+        for (let i = 1; i <= columnCount; i++) {
+            sheet.getColumn(i).width = 20; // Ширина колонки
+        }
+        sheet.eachRow((row, rowNumber) => {
+            row.eachCell((cell) => {
+                // Выравнивание только для данных (не для заголовка)
+                if (rowNumber > 1) {
+                    cell.alignment = { horizontal: "justify", wrapText: true };
+                }
+            });
+        });
+
+        // Экспорт в Excel файл
+        workbook.xlsx.writeBuffer().then((buffer) => {
+            const blob = new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "Телефонный справочник.xlsx";
+            a.click();
+            window.URL.revokeObjectURL(url);
+        });
     }
 </script>
 </body>
