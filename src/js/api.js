@@ -49,7 +49,21 @@ export default class Api {
             }
             else {
                 const body = await response.json()
-                alert('Ошибка при сохранении данных: ' + body.message);
+                console.log(body.message);
+                if (tableName === 'employees') {
+                    if (body.message === 'Bad request: empty job title or full name'){
+                        alert('Ошибка: пустое имя или должность сотрудника');
+                    }
+                    if (body.message.includes('update or delete on table "employees" violates foreign key constraint')){
+                        alert('Ошибка: невозможно удалить сотрудника, т.к. на него есть ссылки в других таблицах');
+                    }
+                } else if (tableName === 'specialties') {
+                    if (body.message.includes('insert or update on table "specialties" violates foreign key constraint')){
+                        alert('Ошибка: такого сотрудника не существует');
+                    }
+                } else {
+                    alert('Ошибка при сохранении данных: ' + body.message);
+                }
             }
         } catch (err) {
             alert('Ошибка при сохранении данных: ' + err.message);
@@ -156,7 +170,13 @@ export default class Api {
                 }
                 else {
                     const body = await response.json()
-                    alert('Ошибка при сохранении данных: ' + body.message);
+                    if (tableName === 'employees') {
+                        if (body.message.includes('update or delete on table "employees" violates foreign key constraint')){
+                            alert('Ошибка: невозможно удалить сотрудника, т.к. на него есть ссылки в других таблицах');
+                        }
+                    } else {
+                        alert('Ошибка при сохранении данных: ' + body.message);
+                    }
                 }
             }
         } catch (err) {
